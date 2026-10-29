@@ -1,0 +1,80 @@
+/* ───────────── Welcome overlay + envelope ───────────── */
+.env-screen {
+  --ew: min(80vw, 340px, max(230px, calc((100dvh - 330px) * 1.9)));
+  position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; gap: clamp(12px, 2.6dvh, 24px);
+  padding: max(18px, env(safe-area-inset-top)) 20px max(18px, env(safe-area-inset-bottom)); text-align: center;
+  overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  transition: opacity 1.25s ease .15s;
+}
+.env-bg { position: fixed; inset: 0; z-index: -1; background: radial-gradient(120% 80% at 50% 28%, #FFFDF8 0%, #FBF0DC 55%, #EAD7AE 135%); }
+.env-bg::after { content: ''; position: absolute; inset: 0; background: var(--jaali); opacity: .09; -webkit-mask-image: radial-gradient(circle at 50% 45%, transparent 28%, #000 85%); mask-image: radial-gradient(circle at 50% 45%, transparent 28%, #000 85%); }
+.env-head, .env-foot { transition: opacity .9s ease; }
+.env-head { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.env-foot { margin-bottom: auto; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+.medallion { position: relative; width: 78px; height: 78px; }
+.medallion svg { width: 100%; height: 100%; }
+.om { position: absolute; inset: 0; display: grid; place-items: center; font: 600 1.65rem/1 var(--deva); color: var(--burgundy); padding-top: 2px; }
+.shloka { margin: 0; font: 600 1.05rem/1.4 var(--deva); letter-spacing: .04em; color: var(--gold-text); }
+.env-title { margin: 2px 0 0; max-width: 15ch; font: 600 clamp(1.8rem, 7.6vw, 2.6rem)/1.08 var(--serif); color: var(--burgundy); text-wrap: balance; }
+.env-title em { display: block; font-weight: 500; color: var(--gold-text); }
+.hint { margin: 0; font: 500 .75rem/1.4 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--muted); }
+
+/* the envelope: 340×224 artwork scaled by --ew */
+.env-stage { position: relative; width: var(--ew); flex: none; transition: transform 1.5s cubic-bezier(.5, 0, .2, 1); }
+.env { position: relative; width: 100%; aspect-ratio: 340 / 224; perspective: 1200px; cursor: pointer; font-size: calc(var(--ew) / 21.25); }
+.env > * { position: absolute; display: block; }
+.env-back { inset: 0; border-radius: 2px; background: var(--jaali) center / 40px, linear-gradient(180deg, #74304A, var(--burgundy)); background-color: var(--burgundy); box-shadow: 0 34px 44px -20px rgba(69, 34, 55, .6), 0 6px 14px rgba(69, 34, 55, .22); }
+.env-front { inset: 0; width: 100%; height: 100%; z-index: 4; filter: drop-shadow(0 -2px 3px rgba(69, 34, 55, .12)); }
+.hash { left: 0; right: 0; bottom: 9%; z-index: 6; text-align: center; font: italic 600 1.05em/1.2 var(--serif); color: var(--burgundy); transition: opacity .5s; padding: 0 8%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* 3D flap: two faces (outer paper, inner burgundy lining) + wax seal riding on the tip */
+.flap { left: 0; right: 0; top: 0; height: 54.5%; z-index: 5; transform-origin: 50% 0; transform-style: preserve-3d; transition: transform 1.15s cubic-bezier(.5, 0, .15, 1), z-index 0s .55s; }
+.flap > * { position: absolute; display: block; }
+.flap-in, .flap-out { inset: 0; clip-path: polygon(0 0, 100% 0, 50% 100%); -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.flap-out { background: linear-gradient(165deg, #FBF1DC, #E3CE9F); }
+.flap-out svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.flap-in { transform: rotateY(180deg); background: var(--jaali) center / 40px, linear-gradient(180deg, #6A2840, #4F1C2F); background-color: #5A2036; box-shadow: inset 0 10px 20px rgba(0, 0, 0, .3); }
+.seal-wrap { left: 50%; bottom: -26px; width: 52px; height: 52px; margin-left: -26px; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.seal {
+  display: grid; place-items: center; width: 100%; height: 100%; border-radius: 52% 48% 55% 45% / 48% 54% 46% 52%;
+  background: radial-gradient(circle at 35% 30%, #9C3C5A, var(--burgundy) 58%, #4A1A2C);
+  color: var(--champagne); font: 700 .86em/1 var(--serif); letter-spacing: .02em;
+  box-shadow: 0 4px 9px rgba(0, 0, 0, .4), inset 0 0 0 3px rgba(0, 0, 0, .16), inset 0 0 0 4px rgba(231, 212, 173, .35);
+  transition: box-shadow .65s ease;
+}
+.s0 .seal { animation: breathe 3.2s ease-in-out infinite; }
+.s1 .seal { box-shadow: 0 4px 9px rgba(0, 0, 0, .35), inset 0 0 0 3px rgba(0, 0, 0, .16), inset 0 0 0 4px rgba(231, 212, 173, .5), 0 0 0 7px rgba(231, 212, 173, .22), 0 0 36px 14px rgba(231, 212, 173, .75); }
+@keyframes breathe { 50% { box-shadow: 0 4px 9px rgba(0, 0, 0, .4), inset 0 0 0 3px rgba(0, 0, 0, .16), inset 0 0 0 4px rgba(231, 212, 173, .4), 0 0 22px 6px rgba(231, 212, 173, .5); } }
+.s2 .flap, .s3 .flap, .s4 .flap { transform: rotateX(180deg); z-index: 1; }
+.s1 .hash, .s2 .hash, .s3 .hash, .s4 .hash { opacity: 0; }
+
+/* invitation card */
+.card {
+  left: 5.5%; right: 5.5%; top: 5%; height: 90%; z-index: 3; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .1em; padding: .5em .8em; text-align: center;
+  background: linear-gradient(180deg, #FFFDF8, var(--ivory)); border: 1px solid var(--gold);
+  box-shadow: 0 6px 18px rgba(69, 34, 55, .25); transition: transform 1.6s cubic-bezier(.3, .8, .2, 1), box-shadow 1.2s ease;
+}
+.card::before { content: ''; position: absolute; inset: 5px; border: 1px solid rgba(176, 141, 87, .55); pointer-events: none; }
+.card-lotus { color: var(--gold); width: 1.4em; height: 1.4em; }
+.cw { font: 400 2em/1.05 var(--script); color: var(--burgundy); }
+.cn { font: 700 1.08em/1.2 var(--serif); color: var(--burgundy); }
+.cm { max-width: 26em; font: 400 .66em/1.5 var(--sans); color: var(--muted); opacity: 0; transition: opacity 1s .9s; }
+.s3 .card { transform: translateY(-62%); }
+.s4 .card { transform: translateY(-78%) scale(1.04); box-shadow: 0 14px 34px rgba(69, 34, 55, .35), 0 0 40px 6px rgba(231, 212, 173, .6); }
+.s3 .cm, .s4 .cm { opacity: 1; }
+@media (max-width: 360px) { .cm { display: none; } }
+
+/* choreography around it */
+.env-screen:not(.s0) .env-foot, .s3 .env-head, .s4 .env-head { opacity: 0; pointer-events: none; }
+
+/* golden motes (one pass, starts when the seal glows) */
+.dust-field { position: absolute; inset: -70px -24px -20px; pointer-events: none; }
+.mote { position: absolute; left: calc(50% + var(--x) * .9); top: 62%; width: var(--s); height: var(--s); border-radius: 50%; opacity: 0; background: radial-gradient(circle, #FFF1C9, var(--gold)); box-shadow: 0 0 6px 1px rgba(231, 212, 173, .9); }
+.env-screen:not(.s0) .mote { animation: rise var(--d) ease-out var(--t) 1 both; }
+@keyframes rise { 0% { opacity: 0; transform: translateY(0) scale(.6); } 22% { opacity: .95; } 100% { opacity: 0; transform: translateY(calc(var(--y) * -1)) scale(1); } }
+
+/* cinematic hand-off: push into the card while the ivory dissolves into the invitation */
+.env-screen.leaving { opacity: 0; pointer-events: none; }
+.env-screen.leaving .env-stage { transform: scale(1.7); }
+@media (max-height: 640px) { .medallion { width: 60px; height: 60px; } .om { font-size: 1.3rem; } .env-title { font-size: 1.7rem; } }
