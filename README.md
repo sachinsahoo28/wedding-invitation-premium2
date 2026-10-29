@@ -24,10 +24,15 @@ Put media in `public/` and reference as `/file.mp3` or `file.mp3` (both resolve 
 1. Put your own **licensed** song in `public/` (e.g. `public/wedding-song.mp3`). No commercial track is bundled — use music you have permission to use.
 2. In `src/data/weddingDetails.js` set `music: 'wedding-song.mp3'` (paths respect Vite's `base`, so GitHub Pages and Vercel both work).
 3. With `music` empty the floating player still shows, labelled "Song not added", and tapping it explains how to add one. No audio is created.
+<<<<<<< HEAD
 4. **Keep the MP3 lean: no embedded cover art.** Songs downloaded from video/music sites often carry a 1–2 MB picture inside the file, *before* the first note, so guests on mobile data wait 10–40 s for the music to start (it looks like the music "sometimes doesn't play"). `npm run build` / `npm run dev` print a `[lightweight-audio]` warning when this happens. Strip it losslessly (the audio is not re-encoded):
    `ffmpeg -i wedding-song.mp3 -map 0:a -c:a copy -map_metadata -1 clean.mp3`
 
 Behaviour: nothing plays on page load (browsers block audible autoplay on a first visit, and where they allow it the song would start before the envelope is opened). The song starts buffering in the background while the envelope is shown. Tapping the envelope (or **Open Invitation**) calls `play()` inside that same tap, so browsers allow it; if a browser blocks it, the load fails or the network stalls, the invitation still opens and the circular music icon shows a soft halo, and the guest's next tap tries once more (nothing retries by itself). There is exactly one audio element for the whole site (`src/music.jsx`), so repeat taps never start a second copy or restart it, and it keeps playing while scrolling. If the guest (or their phone's lock-screen controls) pauses it, nothing restarts it, and one tap always resumes it. The icon follows the audio element's own events: turning ring + glow + notes only while sound is really playing, a breathing ring while loading, and no text label. While the wedding video plays the song is held and restored when the video pauses or ends.
+=======
+
+Behaviour: nothing plays on page load. Tapping the envelope (or **Open Invitation**) requests the song inside that same tap, so browsers allow it; if a browser blocks it anyway, the invitation still opens and the guest starts the song with the circular music icon (no popup). There is exactly one audio element for the whole site (`src/music.jsx`), so repeat taps never start a second copy or restart it, and it keeps playing while scrolling. If the guest pauses it, nothing restarts it. The icon reflects the audio's real state (ring + glow while playing) and has no text label. While the wedding video plays the song is held and restored when the video pauses or ends. The song is not downloaded until the first play request.
+>>>>>>> 4348b3a565b843fb92e1d5188d3128fc007bb79c
 
 ## Limits
 Real RSVP collection, private guest lists and reliable open-tracking need a backend or external service (e.g. a form tool); they are intentionally not faked here.
