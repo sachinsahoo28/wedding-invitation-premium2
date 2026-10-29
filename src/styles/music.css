@@ -1,0 +1,40 @@
+/* ───────────── Floating wedding-music control ─────────────
+   Bottom-right, a single 52px circular button (icon only). Ring turns slowly only while music is really playing.        */
+/* the sr-only status <p> is positioned out of flow; the button is the only visible element */
+.mplayer { position: fixed; z-index: 120; right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); }
+.m-btn {
+  position: relative; display: grid; place-items: center; flex: none; width: 52px; height: 52px; padding: 0; border-radius: 50%; cursor: pointer; touch-action: manipulation;
+  color: var(--champagne); background: radial-gradient(circle at 35% 28%, #7C3049, var(--burgundy) 62%, #4A1A2C); border: 1px solid var(--champagne);
+  box-shadow: inset 0 0 0 2px var(--burgundy), inset 0 0 0 3px rgba(231, 212, 173, .5), 0 12px 22px -10px rgba(69, 34, 55, .8);
+  transition: transform .2s var(--ease), box-shadow .4s ease, background .4s ease;
+}
+@media (hover: hover) { .m-btn:hover { transform: scale(1.06); } }
+.m-btn:active { transform: scale(.94); }
+.m-btn:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 4px; box-shadow: 0 0 0 5px var(--ivory), inset 0 0 0 2px var(--burgundy), inset 0 0 0 3px rgba(231, 212, 173, .5); }
+.m-ring { position: absolute; inset: -9px; width: calc(100% + 18px); height: calc(100% + 18px); color: var(--gold); opacity: .55; pointer-events: none; transition: opacity .6s ease; }
+.is-playing .m-ring, .is-loading .m-ring { opacity: 1; }
+.is-playing .m-ring { animation: mspin 16s linear infinite; }
+.is-loading .m-ring { animation: mspin 3.5s linear infinite; }
+@keyframes mspin { to { transform: rotate(360deg); } }
+
+/* icon cross-fade: note (music off) ⇄ pause bars (music on) */
+.m-ico { position: absolute; inset: 0; display: grid; place-items: center; transition: opacity .35s ease, transform .45s var(--ease); }
+.m-pause { opacity: 0; transform: scale(.6) rotate(-30deg); }
+.is-playing .m-note, .is-loading .m-note { opacity: 0; transform: scale(.6) rotate(30deg); }
+.is-playing .m-pause, .is-loading .m-pause { opacity: 1; transform: none; }
+.is-missing .m-btn, .is-error .m-btn { background: radial-gradient(circle at 35% 28%, #5A4A52, var(--plum) 62%); }
+.is-video .m-btn { opacity: .85; }
+
+/* little notes drifting up while the song plays */
+.m-float { position: absolute; left: 0; right: 0; top: 0; height: 0; pointer-events: none; opacity: 0; }
+.m-float i { position: absolute; left: 50%; top: -4px; font: normal 600 .95rem/1 var(--serif); color: var(--gold-text); opacity: 0; }
+.is-playing .m-float { opacity: 1; }
+.is-playing .m-float i { animation: mnote 3.6s ease-out infinite; }
+.is-playing .m-float i:nth-child(2) { animation-delay: 1.8s; margin-left: 10px; }
+@keyframes mnote { 0% { opacity: 0; transform: translate(-14px, 0) scale(.8); } 15% { opacity: .9; } 100% { opacity: 0; transform: translate(-22px, -38px) rotate(-14deg) scale(1.1); } }
+
+/* playing: a soft gold glow in addition to the turning ring */
+.is-playing .m-btn { box-shadow: inset 0 0 0 2px var(--burgundy), inset 0 0 0 3px rgba(231, 212, 173, .6), 0 0 0 1px rgba(176, 141, 87, .6), 0 0 22px 4px rgba(231, 212, 173, .45), 0 12px 22px -10px rgba(69, 34, 55, .8); }
+/* no song / failed load: quiet diagonal slash instead of a text label */
+.is-missing .m-btn::after, .is-error .m-btn::after { content: ''; position: absolute; left: 50%; top: 50%; width: 26px; height: 1.5px; background: var(--champagne); transform: translate(-50%, -50%) rotate(-45deg); opacity: .85; }
+.is-video .m-btn { opacity: .7; }

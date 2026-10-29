@@ -1,0 +1,13 @@
+/* ───────────── Reduced motion: everything is present and readable, nothing animates ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0s !important; scroll-behavior: auto !important; }
+  .rv, .doors-stage, .doors-actions, .venue-arch-wrap, .al, .venue-photo, .venue-cta, .venue-name span, .gold-line { opacity: 1 !important; transform: none !important; }
+  .venue-arch .dr { stroke-dashoffset: 0; } .venue-arch .fd { opacity: 1; }
+  .timeline::before { transform: none; }
+  .petal-field, .dust-field, .fly, .tap-ring { display: none; }
+  .cm { opacity: 1; }
+  .m-float { display: none; } .m-ring { transform: none; }
+  .film-frame { opacity: 1 !important; transform: none !important; }
+  .sh .divider { clip-path: none; }
+  .spinner { animation: spin 2s linear infinite !important; }  /* progress indicator stays visible, just slower */
+}

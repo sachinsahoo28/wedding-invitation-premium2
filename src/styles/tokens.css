@@ -1,0 +1,59 @@
+/* ───────────── Design tokens ─────────────
+   Royal Indian Heritage × Contemporary Luxury
+   Burgundy = headings / primary actions · Plum = dark surfaces · Gold = ornament only
+   Espresso = body copy · Sage = small labels · Rose = soft accents (petals, tints)          */
+:root {
+  --ivory: #FFF9EF;
+  --gold: #B08D57;          /* decorative: borders, rules, ornaments */
+  --champagne: #E7D4AD;
+  --burgundy: #65253B;
+  --plum: #452237;
+  --rose: #D9A6A7;
+  --sage: #66785B;
+  --espresso: #34251F;
+  --gold-text: #8A6A38;     /* antique gold darkened for text so it keeps ≥4.5:1 on ivory */
+  --muted: #5E4A40;         /* soft espresso for secondary copy (≥7:1 on ivory) */
+
+  --serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
+  --script: 'Great Vibes', 'Snell Roundhand', 'Brush Script MT', cursive;
+  --sans: 'DM Sans', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --deva: 'Noto Serif Devanagari', 'Tiro Devanagari Hindi', 'Nirmala UI', 'Kohinoor Devanagari', serif;
+
+  --ease: cubic-bezier(.22, .8, .2, 1);
+
+  /* fine jaali lattice (gold line-work) + paper grain, both inline SVG so no extra requests */
+  --jaali: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48' fill='none' stroke='%23B08D57' stroke-width='.7'%3E%3Cpath d='M24 0 48 24 24 48 0 24Z'/%3E%3Cpath d='M24 10 38 24 24 38 10 24Z'/%3E%3Ccircle cx='24' cy='24' r='3'/%3E%3Cpath d='M0 0H6M0 0V6M48 0H42M48 0V6M0 48H6M0 48V42M48 48H42M48 48V42'/%3E%3C/svg%3E");
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .16 0 0 0 0 .1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --cusp: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='14' viewBox='0 0 40 14'%3E%3Cpath d='M0 14C0 7 8 4 20 0 32 4 40 7 40 14Z' fill='%23452237'/%3E%3C/svg%3E");
+}
+
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.is-locked, html.is-locked body { overflow: hidden; }
+body {
+  margin: 0; min-height: 100vh; color: var(--espresso);
+  background: radial-gradient(130% 55% at 50% 0, #FFFDF8 0%, var(--ivory) 55%, #F8EEDB 100%) var(--ivory);
+  font: 400 1rem/1.7 var(--sans); overflow-x: hidden;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) 0 env(safe-area-inset-left);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+@supports (overflow: clip) { body { overflow-x: clip; } }
+/* soft paper grain over the whole page, never intercepts taps */
+body::after { content: ''; position: fixed; inset: 0; z-index: 90; pointer-events: none; background: var(--grain); opacity: .09; mix-blend-mode: multiply; }
+
+img, svg, video { max-width: 100%; }
+button { font-family: inherit; }
+h1, h2, h3, p, figure, address, ol { margin-top: 0; }
+:focus-visible { outline: 2px solid var(--burgundy); outline-offset: 3px; }
+.on-dark :focus-visible { outline-color: var(--champagne); }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+main:focus { outline: none; }
+
+/* ───────────── Type roles ───────────── */
+.eyebrow { margin: 0 0 .4rem; font: 600 .75rem/1.4 var(--sans); letter-spacing: .28em; text-transform: uppercase; color: var(--sage); }
+.h-section { margin: 0; font: 600 clamp(1.95rem, 6.8vw, 2.75rem)/1.08 var(--serif); letter-spacing: .005em; color: var(--burgundy); text-wrap: balance; }
+.h-section em { font-style: italic; font-weight: 500; color: var(--gold-text); }
+
+/* shared page frame */
+.sec { position: relative; width: min(calc(100% - 40px), 640px); margin-inline: auto; padding-block: clamp(44px, 9vw, 84px); text-align: center; }
+.invite { position: relative; width: 100%; overflow-x: clip; }
