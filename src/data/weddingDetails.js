@@ -7,7 +7,7 @@ export const wedding = {
   // WEDDING SONG — put your own licensed MP3 in /public (e.g. public/wedding-song.mp3) and set music: 'wedding-song.mp3'.
   // No song is bundled (commercial tracks need the artist's/label's permission). Empty = the player shows a "Song not added" placeholder.
   music: 'wedding-song.mp3',
-  // WEDDING VIDEO — put your real file in /public (e.g. public/wedding-film.mp4, ideally H.264/AAC .mp4 under ~30 MB)
+  // WEDDING VIDEO — put your real filgute in /public (e.g. public/wedding-film.mp4, ideally H.264/AAC .mp4 under ~30 MB)
   // and set video: 'wedding-film.mp4'. A full https:// URL to a direct .mp4/.webm file also works.
   // Leave empty and the section shows a clearly marked placeholder (no fake player).
   video: '',
